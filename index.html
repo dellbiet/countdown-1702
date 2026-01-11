@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Countdown 17/02</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 40px 50px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(0,0,0,0.3);
+    text-align: center;
+    animation: fadeIn 1.5s ease;
+  }
+
+  h1 {
+    margin-bottom: 30px;
+    font-size: 32px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+  }
+
+  .time {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .box {
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 15px;
+    min-width: 90px;
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.2),
+                0 0 15px rgba(0,0,0,0.4);
+  }
+
+  .number {
+    font-size: 36px;
+    font-weight: bold;
+    animation: pulse 1s infinite;
+  }
+
+  .label {
+    font-size: 14px;
+    margin-top: 5px;
+    opacity: 0.8;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .done {
+    font-size: 40px;
+    color: #ffeb3b;
+    text-shadow: 0 0 20px #fff;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>⏳ Đếm ngược đến 00:00 – 17/02</h1>
+
+  <div id="time" class="time">
+    <div class="box">
+      <div class="number" id="days">0</div>
+      <div class="label">Ngày</div>
+    </div>
+    <div class="box">
+      <div class="number" id="hours">0</div>
+      <div class="label">Giờ</div>
+    </div>
+    <div class="box">
+      <div class="number" id="minutes">0</div>
+      <div class="label">Phút</div>
+    </div>
+    <div class="box">
+      <div class="number" id="seconds">0</div>
+      <div class="label">Giây</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 🔧 SỬA NĂM Ở ĐÂY NẾU CẦN
+  const target = new Date("2026-02-17T00:00:00").getTime();
+
+  const timer = setInterval(() => {
+    const now = new Date().getTime();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      clearInterval(timer);
+      document.querySelector(".container").innerHTML =
+        "<div class='done'>🎉 ĐÃ ĐẾN 17/02! 🎉</div>";
+      return;
+    }
+
+    document.getElementById("days").textContent =
+      Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    document.getElementById("hours").textContent =
+      Math.floor((diff / (1000 * 60 * 60)) % 24);
+
+    document.getElementById("minutes").textContent =
+      Math.floor((diff / (1000 * 60)) % 60);
+
+    document.getElementById("seconds").textContent =
+      Math.floor((diff / 1000) % 60);
+  }, 1000);
+</script>
+
+</body>
+</html>
+
