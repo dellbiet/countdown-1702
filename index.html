@@ -85,7 +85,7 @@
 <body>
 
 <div class="container">
-  <h1>Đếm ngược đến Tết Nguyên Đán 2026</h1>
+  <h1>Đếm ngược đến Thi tốt nghiệp THPT 2026</h1>
 
   <div id="time" class="time">
     <div class="box">
@@ -109,7 +109,7 @@
 
 <script>
   // 🔧 change here
-  const target = new Date("2026-02-17T00:00:00").getTime();
+  const target = new Date("2026-06-12T00:06:00").getTime();
 
   const timer = setInterval(() => {
     const now = new Date().getTime();
@@ -118,7 +118,7 @@
     if (diff <= 0) {
       clearInterval(timer);
       document.querySelector(".container").innerHTML =
-        "<div class='done'>🎉 ĐÃ ĐẾN TẾT NGUYÊN ĐÁN! 🎉</div>";
+        "<div class='done'>🎉 CHÚC CÁC BẠN THI TỐT! 🎉</div>";
       return;
     }
 
