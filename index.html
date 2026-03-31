@@ -2,112 +2,132 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <title>Countdown</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Countdown 2026 - dellbiet</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
       * {
         box-sizing: border-box;
       }
-
       body {
         margin: 0;
         height: 100vh;
-        /* Sakura Blossom Gradient */
         background: linear-gradient(135deg, #fff5f5 0%, #ffd1dc 100%);
         display: flex;
         justify-content: center;
         align-items: center;
-        /* Đổi sang font bo tròn sẽ cute hơn */
-        font-family: "Quicksand", "Segoe UI", sans-serif;
-        color: #b05e6f; /* Chữ màu hồng đất để nổi bật trên nền nhạt */
+        font-family: "Quicksand", sans-serif;
+        color: #b05e6f;
+        overflow: hidden;
       }
-
       .container {
-        /* Glassmorphism hiệu ứng kính mờ */
         background: rgba(255, 255, 255, 0.4);
         padding: 40px 50px;
-        border-radius: 30px; /* Bo góc cực tròn */
+        border-radius: 35px;
         backdrop-filter: blur(15px);
         border: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0 10px 30px rgba(176, 94, 111, 0.2);
+        box-shadow: 0 10px 30px rgba(176, 94, 111, 0.15);
         text-align: center;
-        animation: fadeIn 1.5s ease;
+      }
+      .clock-analog {
+        width: 160px;
+        height: 160px;
+        border: 5px solid #ffffff;
+        border-radius: 50%;
+        margin: 0 auto 25px;
+        position: relative;
+        background: rgba(255, 255, 255, 0.3);
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        background: #ad1457;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+      }
+      .hand {
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+        transform-origin: bottom;
+        border-radius: 5px;
+        transform: translateX(-50%) rotate(0deg);
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      /* Thiết kế lại kích thước kim cho hợp lý */
+      .day-hand {
+        width: 7px;
+        height: 40px;
+        background: #b05e6f;
+        z-index: 3;
+      }
+      .hour-hand {
+        width: 4.5px;
+        height: 55px;
+        background: #ec407a;
+        z-index: 2;
+      }
+      .minute-hand {
+        width: 2.5px;
+        height: 70px;
+        background: #ff80ab;
+        z-index: 1;
       }
 
       h1 {
         margin-bottom: 30px;
-        font-size: 28px;
+        font-size: 22px;
         color: #ad1457;
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        font-weight: 700;
       }
-
       .time {
         display: flex;
-        gap: 15px;
+        gap: 12px;
         justify-content: center;
       }
-
       .box {
-        /* Ô số màu hồng rất nhạt */
         background: #ffffff;
-        padding: 20px;
+        padding: 15px;
         border-radius: 20px;
-        min-width: 95px;
-        box-shadow: 0 5px 15px rgba(176, 94, 111, 0.1);
+        min-width: 85px;
+        box-shadow: 0 5px 15px rgba(176, 94, 111, 0.08);
       }
-
       .number {
-        font-size: 38px;
-        font-weight: bold;
-        color: #ec407a; /* Màu con số hồng đậm */
-        animation: pulse 1.5s infinite ease-in-out;
+        font-size: 32px;
+        font-weight: 700;
+        color: #ec407a;
       }
-
       .label {
-        font-size: 14px;
+        font-size: 12px;
         margin-top: 5px;
         color: #ad1457;
         font-weight: 600;
-        opacity: 0.9;
       }
-
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.03);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
       .done {
-        font-size: 35px;
+        font-size: 28px;
         color: #ad1457;
         font-weight: bold;
-        text-shadow: 0 0 10px rgba(255, 192, 203, 0.8);
       }
     </style>
   </head>
-
   <body>
     <div class="container">
-      <h1>Đếm ngược đến Thi tốt nghiệp THPT 2026</h1>
-
-      <div id="time" class="time">
+      <div class="clock-analog">
+        <div class="dot"></div>
+        <div class="hand day-hand" id="day-hand"></div>
+        <div class="hand hour-hand" id="hour-hand"></div>
+        <div class="hand minute-hand" id="minute-hand"></div>
+      </div>
+      <h1>Đếm ngược Thi Tốt Nghiệp 2026</h1>
+      <div id="time-display" class="time">
         <div class="box">
           <div class="number" id="days">0</div>
           <div class="label">Ngày</div>
@@ -128,36 +148,49 @@
     </div>
 
     <script>
-      // 🔧 change here
-      const target = new Date("2026-06-11T00:06:00").getTime();
+      const targetDate = new Date("2026-06-11T00:06:00").getTime();
 
-      const timer = setInterval(() => {
+      function updateClock() {
         const now = new Date().getTime();
-        const diff = target - now;
+        const diff = targetDate - now;
 
         if (diff <= 0) {
-          clearInterval(timer);
+          clearInterval(timerInterval);
           document.querySelector(".container").innerHTML =
-            "<div class='done'>🎉 CHÚC CÁC BẠN THI TỐT :3! 🎉</div>";
+            "<div class='done'>🎉 CHÚC CÁC BẠN THI TỐT! 🎉</div>";
           return;
         }
 
-        document.getElementById("days").textContent = Math.floor(
-          diff / (1000 * 60 * 60 * 24),
-        );
+        // --- Logic Nghịch Đảo Theo Yêu Cầu ---
+        const dRemaining = diff / (1000 * 60 * 60 * 24);
+        const hRemaining = (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+        const mRemaining = (diff % (1000 * 60 * 60)) / (1000 * 60);
 
-        document.getElementById("hours").textContent = Math.floor(
-          (diff / (1000 * 60 * 60)) % 24,
-        );
+        // Kim Ngày: quay 1 vòng ứng với 365 ngày
+        const dDeg = (dRemaining / 365) * 360;
+        // Kim Giờ: quay 1 vòng ứng với 24 giờ đếm ngược
+        const hDeg = (hRemaining / 24) * 360;
+        // Kim Phút: quay 1 vòng ứng với 60 phút đếm ngược
+        const mDeg = (mRemaining / 60) * 360;
 
-        document.getElementById("minutes").textContent = Math.floor(
-          (diff / (1000 * 60)) % 60,
-        );
+        document.getElementById("day-hand").style.transform =
+          `translateX(-50%) rotate(${dDeg}deg)`;
+        document.getElementById("hour-hand").style.transform =
+          `translateX(-50%) rotate(${hDeg}deg)`;
+        document.getElementById("minute-hand").style.transform =
+          `translateX(-50%) rotate(${mDeg}deg)`;
 
+        // Hiển thị số (Vẫn giữ giây ở phần số để bạn thấy nó nhảy)
+        document.getElementById("days").textContent = Math.floor(dRemaining);
+        document.getElementById("hours").textContent = Math.floor(hRemaining);
+        document.getElementById("minutes").textContent = Math.floor(mRemaining);
         document.getElementById("seconds").textContent = Math.floor(
           (diff / 1000) % 60,
         );
-      }, 1000);
+      }
+
+      const timerInterval = setInterval(updateClock, 1000);
+      updateClock();
     </script>
   </body>
 </html>
