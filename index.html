@@ -12,56 +12,63 @@
       body {
         margin: 0;
         height: 100vh;
-        background: linear-gradient(135deg, #667eea, #764ba2);
+        /* Sakura Blossom Gradient */
+        background: linear-gradient(135deg, #fff5f5 0%, #ffd1dc 100%);
         display: flex;
         justify-content: center;
         align-items: center;
-        font-family: "Segoe UI", sans-serif;
-        color: white;
+        /* Đổi sang font bo tròn sẽ cute hơn */
+        font-family: "Quicksand", "Segoe UI", sans-serif;
+        color: #b05e6f; /* Chữ màu hồng đất để nổi bật trên nền nhạt */
       }
 
       .container {
-        background: rgba(255, 255, 255, 0.15);
+        /* Glassmorphism hiệu ứng kính mờ */
+        background: rgba(255, 255, 255, 0.4);
         padding: 40px 50px;
-        border-radius: 20px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+        border-radius: 30px; /* Bo góc cực tròn */
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 10px 30px rgba(176, 94, 111, 0.2);
         text-align: center;
         animation: fadeIn 1.5s ease;
       }
 
       h1 {
         margin-bottom: 30px;
-        font-size: 32px;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        font-size: 28px;
+        color: #ad1457;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
       }
 
       .time {
         display: flex;
-        gap: 20px;
+        gap: 15px;
         justify-content: center;
       }
 
       .box {
-        background: rgba(0, 0, 0, 0.3);
+        /* Ô số màu hồng rất nhạt */
+        background: #ffffff;
         padding: 20px;
-        border-radius: 15px;
-        min-width: 90px;
-        box-shadow:
-          inset 0 0 10px rgba(255, 255, 255, 0.2),
-          0 0 15px rgba(0, 0, 0, 0.4);
+        border-radius: 20px;
+        min-width: 95px;
+        box-shadow: 0 5px 15px rgba(176, 94, 111, 0.1);
       }
 
       .number {
-        font-size: 36px;
+        font-size: 38px;
         font-weight: bold;
-        animation: pulse 1s infinite;
+        color: #ec407a; /* Màu con số hồng đậm */
+        animation: pulse 1.5s infinite ease-in-out;
       }
 
       .label {
         font-size: 14px;
         margin-top: 5px;
-        opacity: 0.8;
+        color: #ad1457;
+        font-weight: 600;
+        opacity: 0.9;
       }
 
       @keyframes pulse {
@@ -69,7 +76,7 @@
           transform: scale(1);
         }
         50% {
-          transform: scale(1.05);
+          transform: scale(1.03);
         }
         100% {
           transform: scale(1);
@@ -79,7 +86,7 @@
       @keyframes fadeIn {
         from {
           opacity: 0;
-          transform: translateY(30px);
+          transform: translateY(20px);
         }
         to {
           opacity: 1;
@@ -88,9 +95,10 @@
       }
 
       .done {
-        font-size: 40px;
-        color: #ffeb3b;
-        text-shadow: 0 0 20px #fff;
+        font-size: 35px;
+        color: #ad1457;
+        font-weight: bold;
+        text-shadow: 0 0 10px rgba(255, 192, 203, 0.8);
       }
     </style>
   </head>
